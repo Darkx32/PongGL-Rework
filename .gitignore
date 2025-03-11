@@ -1,0 +1,11 @@
+*.vcxproj
+*.vcxproj.*
+*.cmake
+CMakeCache.txt
+*.sln
+
+x64
+rework-ponggl.dir
+Debug
+CMakeFiles
+.vscode
