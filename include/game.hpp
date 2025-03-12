@@ -64,7 +64,7 @@ SDL_AppResult Game::start()
 
     SDL_GL_SetSwapInterval(1);
 
-    result = rect.init(glm::vec2(0.0f), glm::vec2(20.f), glm::vec3(1.0f));
+    result = rect.init(glm::vec2(150.0f), glm::vec2(20.f), glm::vec3(1.0f));
     if (result != SDL_APP_CONTINUE)
         return result;
 
@@ -75,11 +75,25 @@ SDL_AppResult Game::handleEvents(SDL_Event* events)
 {
     if (events->type == SDL_EVENT_QUIT)
         return SDL_APP_SUCCESS;
+
+    else if (events->type == SDL_EVENT_KEY_DOWN)
+    {
+        if (events->key.scancode == SDL_SCANCODE_W)
+            rect.applyForce(glm::vec2(0.0f, -5.0f));
+        if (events->key.scancode == SDL_SCANCODE_A)
+            rect.applyForce(glm::vec2(-5.0f, 0.0f));
+        if (events->key.scancode == SDL_SCANCODE_S)
+            rect.applyForce(glm::vec2(0.0f, 5.0f));
+        if (events->key.scancode == SDL_SCANCODE_D)
+            rect.applyForce(glm::vec2(5.0f, 0.0f));
+    }
     return SDL_APP_CONTINUE;
 }
 
 SDL_AppResult Game::updatePhysics()
 {
+    this->rect.updatePhysics();
+
     return SDL_APP_CONTINUE;
 }
 

@@ -6,8 +6,9 @@
 #include <SDL3/SDL.h>
 #include <shader.hpp>
 #include <global.hpp>
+#include <rigidbody.hpp>
 
-class Rect
+class Rect : public Rigidbody
 {
 private:
     glm::vec2 position, scale;
@@ -21,6 +22,7 @@ private:
 public:
     SDL_AppResult init(glm::vec2, glm::vec2, glm::vec3);
     SDL_AppResult render();
+    void updatePhysics();
     void close();
 
 };
@@ -81,6 +83,11 @@ SDL_AppResult Rect::render()
     glBindVertexArray(0);
 
     return SDL_APP_CONTINUE;
+}
+
+void Rect::updatePhysics()
+{
+    this->updatePosition(&this->position);
 }
 
 void Rect::close()
