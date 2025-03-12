@@ -2,6 +2,7 @@
 #include <SDL3/SDL.h>
 #include <glad/glad.h>
 #include "rect.hpp"
+#include "global.hpp"
 
 class Game
 {
@@ -45,7 +46,7 @@ SDL_AppResult Game::start()
         return SDL_APP_FAILURE;
     }
 
-    this->window = SDL_CreateWindow("PongGL - Rework", 360, 480, SDL_WINDOW_OPENGL);
+    this->window = SDL_CreateWindow("PongGL - Rework", WINDOW_SIZE[0], WINDOW_SIZE[1], SDL_WINDOW_OPENGL);
     if (!this->window)
     {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Error to create window: %s", SDL_GetError());

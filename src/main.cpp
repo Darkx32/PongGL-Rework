@@ -42,8 +42,5 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result)
 {
     Game* game = static_cast<Game*>(appstate);
 
-    if (result == SDL_APP_SUCCESS)
-        SDL_Log("Successfully! Your game is running good.");
-
     delete game;
 }
