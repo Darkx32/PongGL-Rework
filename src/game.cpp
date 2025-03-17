@@ -54,17 +54,15 @@ SDL_AppResult Game::handleEvents(SDL_Event* events)
     if (events->type == SDL_EVENT_QUIT)
         return SDL_APP_SUCCESS;
 
-    else if (events->type == SDL_EVENT_KEY_DOWN)
-    {
-        if (events->key.scancode == SDL_SCANCODE_W)
-            rect.applyForce(glm::vec2(0.0f, -5.0f));
-        if (events->key.scancode == SDL_SCANCODE_A)
-            rect.applyForce(glm::vec2(-5.0f, 0.0f));
-        if (events->key.scancode == SDL_SCANCODE_S)
-            rect.applyForce(glm::vec2(0.0f, 5.0f));
-        if (events->key.scancode == SDL_SCANCODE_D)
-            rect.applyForce(glm::vec2(5.0f, 0.0f));
-    }
+    auto state = SDL_GetKeyboardState(NULL);
+    if (state[SDL_SCANCODE_W])
+        rect.applyForce(glm::vec2(0.0f, -5.0f));
+    if (state[SDL_SCANCODE_A])
+        rect.applyForce(glm::vec2(-5.0f, 0.0f));
+    if (state[SDL_SCANCODE_S])
+        rect.applyForce(glm::vec2(0.0f, 5.0f));
+    if (state[SDL_SCANCODE_D])
+        rect.applyForce(glm::vec2(5.0f, 0.0f));
     return SDL_APP_CONTINUE;
 }
 
