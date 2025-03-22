@@ -45,6 +45,10 @@ SDL_AppResult Game::start()
     result = rect.init(glm::vec2(150.0f), glm::vec2(20.f), glm::vec3(1.0f));
     if (result != SDL_APP_CONTINUE)
         return result;
+    
+    result = rect2.init(glm::vec2(100.0f), glm::vec2(20.f), glm::vec3(1.0f));
+    if (result != SDL_APP_CONTINUE)
+        return result;
 
     return result;
 }
@@ -63,12 +67,18 @@ SDL_AppResult Game::handleEvents(SDL_Event* events)
         rect.applyForce(glm::vec2(0.0f, 5.0f));
     if (state[SDL_SCANCODE_D])
         rect.applyForce(glm::vec2(5.0f, 0.0f));
+
+    if (this->rect.detectCollision(this->rect2))
+        SDL_Log("Colidiu");
+
     return SDL_APP_CONTINUE;
 }
 
 SDL_AppResult Game::updatePhysics()
 {
+
     this->rect.updatePhysics();
+    this->rect2.updatePhysics();
 
     return SDL_APP_CONTINUE;
 }
@@ -83,6 +93,10 @@ SDL_AppResult Game::updateRender()
     result = rect.render();
     if (result != SDL_APP_CONTINUE)
         return result;
+
+    result = rect2.render();
+        if (result != SDL_APP_CONTINUE)
+            return result;
 
     SDL_GL_SwapWindow(this->window);
 

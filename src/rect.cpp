@@ -27,6 +27,9 @@ SDL_AppResult Rect::init(glm::vec2 position, glm::vec2 scale, glm::vec3 color)
     this->scale = scale;
     this->color = color;
 
+    r_position = &this->position;
+    r_scale = &this->scale;
+
     return result;
 }
 
@@ -60,7 +63,7 @@ SDL_AppResult Rect::render()
 
 void Rect::updatePhysics()
 {
-    this->updatePosition(&this->position);
+    this->updatePosition();
 }
 
 void Rect::close()

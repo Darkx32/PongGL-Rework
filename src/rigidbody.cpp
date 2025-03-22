@@ -7,7 +7,7 @@ float Rigidbody::smoothRound(float value)
     return value * (std::abs(value) / std::abs(value) + this->ep);
 }
 
-void Rigidbody::updatePosition(glm::vec2* position)
+void Rigidbody::updatePosition()
 {
     this->acceleration.x -= this->smoothRound(this->acceleration.x * this->k);
     this->acceleration.y -= this->smoothRound(this->acceleration.y * this->k);
@@ -23,10 +23,27 @@ void Rigidbody::updatePosition(glm::vec2* position)
         this->acceleration.y = p_y;
     }
 
-    *position += this->acceleration;
+    *r_position += this->acceleration;
 }
 
 void Rigidbody::applyForce(glm::vec2 force)
 {
     this->acceleration += force;
+}
+
+bool Rigidbody::detectCollision(Rigidbody& rb)
+{   
+    if (this->r_scale)
+    {
+        bool collisionX = (*this->r_position).x + (*this->r_scale).x >= (*rb.r_position).x && 
+            (*rb.r_position).x + (*rb.r_scale).x >= (*this->r_position).x;
+        bool collisionY = (*this->r_position).y + (*this->r_scale).y >= (*rb.r_position).y &&
+            (*rb.r_position).y + (*rb.r_scale).y >= (*this->r_position).y;
+
+        return collisionX && collisionY;
+    } else if (this->r_radius)
+    {
+        return false;
+    }
+    return false;
 }

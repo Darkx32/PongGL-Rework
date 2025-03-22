@@ -11,6 +11,7 @@ private:
     SDL_GLContext context;
 
     Rect rect;
+    Rect rect2;
 
 public:
     Game() = default;
