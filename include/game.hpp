@@ -2,6 +2,7 @@
 #include <SDL3/SDL.h>
 #include <glad/glad.h>
 #include "rect.hpp"
+#include "circle.hpp"
 #include "global.hpp"
 
 class Game
@@ -12,6 +13,7 @@ private:
 
     Rect rect;
     Rect rect2;
+    Circle circle;
 
 public:
     Game() = default;
