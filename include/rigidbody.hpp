@@ -8,6 +8,7 @@ class Rigidbody
 {
 private:
     float smoothRound(float);
+    bool detectCircleRectCollision(const Rigidbody&, const Rigidbody&);
 
 protected:
     void updatePosition();
@@ -23,5 +24,5 @@ public:
     float* r_radius = nullptr;
 
     void applyForce(glm::vec2);
-    bool detectCollision(Rigidbody&);
+    bool detectCollision(const Rigidbody&);
 };

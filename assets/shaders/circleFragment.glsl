@@ -9,7 +9,7 @@ void main()
 {
 	vec2 uv = aPosition - vec2(0.5);
     float d = length(uv);
-	float circle = smoothstep(0.5, 0.4, d);
+	float circle = smoothstep(0.5, 0.48, d);
 
     FragColor = vec4(aColor.rgb, circle);
 }

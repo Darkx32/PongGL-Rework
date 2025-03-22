@@ -48,7 +48,7 @@ SDL_AppResult Game::start()
     if ((result = rect2.init(glm::vec2(150.0f), glm::vec2(20.f), glm::vec3(1.0f))) != SDL_APP_CONTINUE)
         return result;
 
-    if ((result = circle.init(glm::vec2(180.0f), 20, glm::vec3(1.0f))) != SDL_APP_CONTINUE)
+    if ((result = circle.init(glm::vec2(180.0f), 10, glm::vec3(1.0f))) != SDL_APP_CONTINUE)
         return result;
 
     return result;
@@ -69,9 +69,12 @@ SDL_AppResult Game::handleEvents(SDL_Event* events)
     if (state[SDL_SCANCODE_D])
         rect.applyForce(glm::vec2(5.0f, 0.0f));
 
-    /*
+    
     if (this->rect.detectCollision(this->rect2))
-        SDL_Log("Colidiu");*/
+        SDL_Log("Colidiu");
+
+    if (this->rect.detectCollision(this->circle))
+        SDL_Log("Colidiu");
 
     return SDL_APP_CONTINUE;
 }

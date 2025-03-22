@@ -38,7 +38,7 @@ SDL_AppResult Circle::render()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glm::mat4 transform = glm::mat4(1.0f);
     transform = glm::translate(transform, glm::vec3(this->position, 0.0f));
-    transform = glm::scale(transform, glm::vec3(glm::vec2(this->radius), 1.0f));
+    transform = glm::scale(transform, glm::vec3(glm::vec2(this->radius * 2.0f), 1.0f));
     transform = m_projection * transform;
 
     glUseProgram(this->shader.program);
