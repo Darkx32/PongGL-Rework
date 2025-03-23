@@ -55,21 +55,7 @@ void Rigidbody::applyForce(glm::vec2 force)
 
 bool Rigidbody::detectCollision(const Rigidbody& rb)
 {
-    if (this->r_scale && rb.r_scale)
-    {
-        const glm::vec2& posA = *this->r_position;
-        const glm::vec2& scaleA = *this->r_scale;
-        const glm::vec2& posB = *rb.r_position;
-        const glm::vec2& scaleB = *rb.r_scale;
-
-        bool collisionX = posA.x + scaleA.x >= posB.x && 
-                          posB.x + scaleB.x >= posA.x;
-        bool collisionY = posA.y + scaleA.y >= posB.y &&
-                          posB.y + scaleB.y >= posA.y;
-
-        return collisionX && collisionY;
-    }
-    else if (this->r_radius && rb.r_scale)
+    if (this->r_radius && rb.r_scale)
         return detectCircleRectCollision(*this, rb); 
     else if (this->r_scale && rb.r_radius)
         return detectCircleRectCollision(rb, *this);

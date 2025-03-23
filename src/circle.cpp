@@ -71,3 +71,9 @@ void Circle::updatePhysics()
 {
     this->updatePosition();
 }
+
+void Circle::close()
+{
+    this->shader.close();
+    glDeleteBuffers(1, &this->VAO);
+}

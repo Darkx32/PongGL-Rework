@@ -11,8 +11,8 @@ private:
     SDL_Window* window;
     SDL_GLContext context;
 
-    Rect rect;
-    Rect rect2;
+    Rect bar;
+    Rect bar2;
     Circle circle;
 
 public:

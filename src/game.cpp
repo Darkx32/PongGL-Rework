@@ -2,7 +2,9 @@
 
 Game::~Game()
 {
-    rect.close();
+    bar.close();
+    bar2.close();
+    circle.close();
 
     SDL_GL_DestroyContext(this->context);
     SDL_DestroyWindow(this->window);
@@ -42,13 +44,13 @@ SDL_AppResult Game::start()
 
     SDL_GL_SetSwapInterval(1);
 
-    if ((result = rect.init(glm::vec2(100.0f), glm::vec2(20.f), glm::vec3(1.0f))) != SDL_APP_CONTINUE)
+    if ((result = bar.init(glm::vec2(WINDOW_SIZE[0] / 2.f, 10.f), glm::vec2(60.f, 10.f), glm::vec3(1.f))) != SDL_APP_CONTINUE)
         return result;
 
-    if ((result = rect2.init(glm::vec2(150.0f), glm::vec2(20.f), glm::vec3(1.0f))) != SDL_APP_CONTINUE)
+    if ((result = bar2.init(glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] - 20.f), glm::vec2(60.f, 10.f), glm::vec3(1.f))) != SDL_APP_CONTINUE)
         return result;
 
-    if ((result = circle.init(glm::vec2(180.0f), 10, glm::vec3(1.0f))) != SDL_APP_CONTINUE)
+    if ((result = circle.init(glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] / 2.f), 10, glm::vec3(1.f))) != SDL_APP_CONTINUE)
         return result;
 
     return result;
@@ -60,20 +62,17 @@ SDL_AppResult Game::handleEvents(SDL_Event* events)
         return SDL_APP_SUCCESS;
 
     auto state = SDL_GetKeyboardState(NULL);
-    if (state[SDL_SCANCODE_W])
-        rect.applyForce(glm::vec2(0.0f, -5.0f));
     if (state[SDL_SCANCODE_A])
-        rect.applyForce(glm::vec2(-5.0f, 0.0f));
-    if (state[SDL_SCANCODE_S])
-        rect.applyForce(glm::vec2(0.0f, 5.0f));
+        bar.applyForce(glm::vec2(-5.0f, 0.0f));
     if (state[SDL_SCANCODE_D])
-        rect.applyForce(glm::vec2(5.0f, 0.0f));
+        bar.applyForce(glm::vec2(5.0f, 0.0f));
 
-    
-    if (this->rect.detectCollision(this->rect2))
-        SDL_Log("Colidiu");
+    if (state[SDL_SCANCODE_LEFT])
+        bar2.applyForce(glm::vec2(-5.0f, 0.0f));
+    if (state[SDL_SCANCODE_RIGHT])
+        bar2.applyForce(glm::vec2(5.0f, 0.0f));
 
-    if (this->rect.detectCollision(this->circle))
+    if (this->bar.detectCollision(this->circle))
         SDL_Log("Colidiu");
 
     return SDL_APP_CONTINUE;
@@ -81,8 +80,8 @@ SDL_AppResult Game::handleEvents(SDL_Event* events)
 
 SDL_AppResult Game::updatePhysics()
 {
-    this->rect.updatePhysics();
-    this->rect2.updatePhysics();
+    this->bar.updatePhysics();
+    this->bar2.updatePhysics();
     this->circle.updatePhysics();
 
     return SDL_APP_CONTINUE;
@@ -95,10 +94,10 @@ SDL_AppResult Game::updateRender()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    if ((result = rect.render()) != SDL_APP_CONTINUE)
+    if ((result = bar.render()) != SDL_APP_CONTINUE)
         return result;
 
-    if ((result = rect2.render()) != SDL_APP_CONTINUE)
+    if ((result = bar2.render()) != SDL_APP_CONTINUE)
         return result;
 
     if ((result = circle.render()) != SDL_APP_CONTINUE)
