@@ -50,9 +50,10 @@ SDL_AppResult Game::start()
     if ((result = bar2.init(glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] - 20.f), glm::vec2(60.f, 10.f), glm::vec3(1.f))) != SDL_APP_CONTINUE)
         return result;
 
-    if ((result = circle.init(glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] / 2.f), 10, glm::vec3(1.f))) != SDL_APP_CONTINUE)
+    if ((result = circle.init(glm::vec2(.0f), 10, glm::vec3(1.f))) != SDL_APP_CONTINUE)
         return result;
 
+    this->restartCircle();
     return result;
 }
 
@@ -62,18 +63,15 @@ SDL_AppResult Game::handleEvents(SDL_Event* events)
         return SDL_APP_SUCCESS;
 
     auto state = SDL_GetKeyboardState(NULL);
-    if (state[SDL_SCANCODE_A])
+    if (state[SDL_SCANCODE_A] && (*bar.r_position).x > 20.f)
         bar.applyForce(glm::vec2(-5.0f, 0.0f));
-    if (state[SDL_SCANCODE_D])
+    else if (state[SDL_SCANCODE_D] && (*bar.r_position).x + (*bar.r_scale).x < WINDOW_SIZE[0] - 20.f)
         bar.applyForce(glm::vec2(5.0f, 0.0f));
 
-    if (state[SDL_SCANCODE_LEFT])
+    if (state[SDL_SCANCODE_LEFT] && (*bar2.r_position).x > 20.f)
         bar2.applyForce(glm::vec2(-5.0f, 0.0f));
-    if (state[SDL_SCANCODE_RIGHT])
+    else if (state[SDL_SCANCODE_RIGHT] && (*bar2.r_position).x + (*bar2.r_scale).x < WINDOW_SIZE[0] - 20.f)
         bar2.applyForce(glm::vec2(5.0f, 0.0f));
-
-    if (this->bar.detectCollision(this->circle))
-        SDL_Log("Colidiu");
 
     return SDL_APP_CONTINUE;
 }
@@ -82,7 +80,25 @@ SDL_AppResult Game::updatePhysics()
 {
     this->bar.updatePhysics();
     this->bar2.updatePhysics();
+
+    if (this->bar.detectCollision(this->circle))
+    {
+        this->circle.solveCircleCollision(this->bar);
+    }
+    else if (this->bar2.detectCollision(this->circle))
+    {
+        this->circle.solveCircleCollision(this->bar2);
+    }
+
+    if ((*this->circle.r_position).x <= 0.0f)
+        this->circle.applyForce(this->circle.getAcceleration() * glm::vec2(-2.0f, 0.0f));
+    if ((*circle.r_position).x + *this->circle.r_radius * 2.0f >= WINDOW_SIZE[0])
+        this->circle.applyForce(this->circle.getAcceleration() * glm::vec2(-2.0f, 0.0f));
+        
     this->circle.updatePhysics();
+
+    if ((*this->circle.r_position).y >= WINDOW_SIZE[1] || ((*this->circle.r_position).y + *this->circle.r_radius) <= 0.0f)
+        this->restartCircle();
 
     return SDL_APP_CONTINUE;
 }
@@ -106,4 +122,15 @@ SDL_AppResult Game::updateRender()
     SDL_GL_SwapWindow(this->window);
 
     return result;
+}
+
+void Game::restartCircle()
+{
+    *this->circle.r_position = glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] / 2.f);
+    this->circle.applyForce(-this->circle.getAcceleration());
+    
+    float random_force = 5.0f;
+    int number = rand() % 2;
+    random_force *= number ? -1.0f : 1.0f;
+    circle.applyForce(glm::vec2(5.0f, random_force));
 }

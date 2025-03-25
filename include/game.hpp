@@ -23,4 +23,6 @@ public:
     SDL_AppResult handleEvents(SDL_Event* events);
     SDL_AppResult updatePhysics();
     SDL_AppResult updateRender();
+
+    void restartCircle();
 };

@@ -29,6 +29,8 @@ SDL_AppResult Circle::init(glm::vec2 pos, float rad, glm::vec3 c)
     r_position = &this->position;
     r_radius = &this->radius;
 
+    k = 0.0f;
+
     return result;
 }
 

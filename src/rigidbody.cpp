@@ -62,3 +62,15 @@ bool Rigidbody::detectCollision(const Rigidbody& rb)
 
     return false;
 }
+
+void Rigidbody::solveCircleCollision(Rigidbody &rb)
+{
+    if (this->r_radius)
+    {
+        glm::vec2 distance = ((*rb.r_position) + (*rb.r_scale) / 2.0f) - ((*this->r_position + *this->r_radius));
+        glm::vec2 direction = distance / glm::length(distance);
+        float penetration = *this->r_radius - glm::length(distance);
+        direction = direction * penetration * 5.0f;
+        this->applyForce(direction);
+    }
+}

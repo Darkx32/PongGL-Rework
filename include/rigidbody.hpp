@@ -25,4 +25,5 @@ public:
 
     void applyForce(glm::vec2);
     bool detectCollision(const Rigidbody&);
+    void solveCircleCollision(Rigidbody&);
 };

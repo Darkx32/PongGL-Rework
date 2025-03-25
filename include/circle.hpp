@@ -26,4 +26,5 @@ public:
     void updatePhysics();
     void close();
 
+    glm::vec2 getAcceleration() const {return acceleration;};
 };
