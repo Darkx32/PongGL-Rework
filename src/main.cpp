@@ -35,6 +35,8 @@ SDL_AppResult SDL_AppIterate(void *appstate)
     if (result != SDL_APP_CONTINUE)
         return result;
 
+    SDL_Delay(1000 / game->targetFps);
+
     return result;
 }
 

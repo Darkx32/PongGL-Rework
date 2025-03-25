@@ -1,15 +1,14 @@
 #include "game.hpp"
 
-Game::~Game()
+void Game::restartCircle()
 {
-    bar.close();
-    bar2.close();
-    circle.close();
-
-    SDL_GL_DestroyContext(this->context);
-    SDL_DestroyWindow(this->window);
-    SDL_Log("Successfully! Game is running okay!");
-    SDL_Quit();
+    *this->circle.r_position = glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] / 2.f);
+    this->circle.applyForce(-this->circle.getAcceleration());
+    
+    float random_force = 5.0f;
+    int number = rand() % 2;
+    random_force *= number ? -1.0f : 1.0f;
+    circle.applyForce(glm::vec2(5.0f, random_force));
 }
 
 SDL_AppResult Game::start()
@@ -42,8 +41,7 @@ SDL_AppResult Game::start()
 
     gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
 
-    SDL_GL_SetSwapInterval(1);
-
+    // Creating objects on game
     if ((result = bar.init(glm::vec2(WINDOW_SIZE[0] / 2.f, 10.f), glm::vec2(60.f, 10.f), glm::vec3(1.f))) != SDL_APP_CONTINUE)
         return result;
 
@@ -54,13 +52,23 @@ SDL_AppResult Game::start()
         return result;
 
     this->restartCircle();
+
+    // Starting User Interface
+    if ((result = ui.init(this->window, this->context)) != SDL_APP_CONTINUE)
+        return result;
+    
     return result;
 }
 
 SDL_AppResult Game::handleEvents(SDL_Event* events)
 {
+    SDL_AppResult result = SDL_APP_CONTINUE;
+
     if (events->type == SDL_EVENT_QUIT)
         return SDL_APP_SUCCESS;
+
+    if ((result = ui.processEvents(events)) != SDL_APP_CONTINUE)
+        return result;
 
     auto state = SDL_GetKeyboardState(NULL);
     if (state[SDL_SCANCODE_A] && (*bar.r_position).x > 20.f)
@@ -73,7 +81,7 @@ SDL_AppResult Game::handleEvents(SDL_Event* events)
     else if (state[SDL_SCANCODE_RIGHT] && (*bar2.r_position).x + (*bar2.r_scale).x < WINDOW_SIZE[0] - 20.f)
         bar2.applyForce(glm::vec2(5.0f, 0.0f));
 
-    return SDL_APP_CONTINUE;
+    return result;
 }
 
 SDL_AppResult Game::updatePhysics()
@@ -119,18 +127,24 @@ SDL_AppResult Game::updateRender()
     if ((result = circle.render()) != SDL_APP_CONTINUE)
         return result;
 
+    if ((result = ui.render()) != SDL_APP_CONTINUE)
+        return result;
+
     SDL_GL_SwapWindow(this->window);
 
     return result;
 }
 
-void Game::restartCircle()
+Game::~Game()
 {
-    *this->circle.r_position = glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] / 2.f);
-    this->circle.applyForce(-this->circle.getAcceleration());
-    
-    float random_force = 5.0f;
-    int number = rand() % 2;
-    random_force *= number ? -1.0f : 1.0f;
-    circle.applyForce(glm::vec2(5.0f, random_force));
+    bar.close();
+    bar2.close();
+    circle.close();
+
+    ui.shutdown();
+
+    SDL_GL_DestroyContext(this->context);
+    SDL_DestroyWindow(this->window);
+    SDL_Log("Successfully! Game is running okay!");
+    SDL_Quit();
 }
