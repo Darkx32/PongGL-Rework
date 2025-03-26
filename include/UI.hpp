@@ -7,10 +7,11 @@
 class UI
 {
 private:
+    Uint64 startTime;
 
 public:
     SDL_AppResult init(SDL_Window*, SDL_GLContext);
     SDL_AppResult processEvents(SDL_Event*);
-    SDL_AppResult render();
+    SDL_AppResult render(float&);
     void shutdown();
 };

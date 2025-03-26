@@ -74,6 +74,21 @@ void Circle::updatePhysics()
     this->updatePosition();
 }
 
+void Circle::restart()
+{
+    *this->r_position = glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] / 2.f);
+    this->applyForce(-this->getAcceleration());
+    
+    float randomForceX, randomForceY;
+    randomForceX = randomForceY = 5.f;
+    int number = rand() % 2;
+    randomForceX *= number ? -1.0f : 1.0f;
+    number = rand() % 2;
+    randomForceY *= number ? -1.0f : 1.0f;
+    
+    this->applyForce(glm::vec2(randomForceX, randomForceY));
+}
+
 void Circle::close()
 {
     this->shader.close();

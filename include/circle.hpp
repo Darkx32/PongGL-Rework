@@ -25,6 +25,7 @@ public:
     SDL_AppResult render();
     void updatePhysics();
     void close();
+    void restart();
 
-    glm::vec2 getAcceleration() const {return acceleration;};
+    glm::vec2 getAcceleration() {return acceleration;};
 };

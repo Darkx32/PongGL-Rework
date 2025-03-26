@@ -20,6 +20,8 @@ private:
     // UI
     UI ui;
 
+    Uint64 lastTime = 0.f;
+
 public:
     Game() = default;
     ~Game();
@@ -29,7 +31,5 @@ public:
     SDL_AppResult updatePhysics();
     SDL_AppResult updateRender();
 
-    float targetFps = 60.f;
-
-    void restartCircle();
+    float deltaTime = 0.f;
 };

@@ -2,6 +2,8 @@
 
 SDL_AppResult UI::init(SDL_Window *window, SDL_GLContext glContext)
 {
+    startTime = SDL_GetTicks();
+
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
@@ -21,15 +23,18 @@ SDL_AppResult UI::processEvents(SDL_Event *events)
     return SDL_APP_CONTINUE;
 }
 
-SDL_AppResult UI::render()
+SDL_AppResult UI::render(float& dt)
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
 
     {
-        ImGui::Begin("Teste");
-        ImGui::Text("Hello World");
+        float fps = 1.0f / dt;
+
+        ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+        ImGui::Begin("Floating", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        ImGui::Text("%.1f", ceilf(fps));
         ImGui::End();
     }
 

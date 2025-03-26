@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#define TARGET_FPS 1000.f / 60.f
 
 static constexpr int WINDOW_SIZE[2] = { 360, 480 };
 

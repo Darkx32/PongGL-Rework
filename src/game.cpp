@@ -1,16 +1,5 @@
 #include "game.hpp"
 
-void Game::restartCircle()
-{
-    *this->circle.r_position = glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] / 2.f);
-    this->circle.applyForce(-this->circle.getAcceleration());
-    
-    float random_force = 5.0f;
-    int number = rand() % 2;
-    random_force *= number ? -1.0f : 1.0f;
-    circle.applyForce(glm::vec2(5.0f, random_force));
-}
-
 SDL_AppResult Game::start()
 {
     SDL_AppResult result = SDL_APP_CONTINUE;
@@ -51,11 +40,13 @@ SDL_AppResult Game::start()
     if ((result = circle.init(glm::vec2(.0f), 10, glm::vec3(1.f))) != SDL_APP_CONTINUE)
         return result;
 
-    this->restartCircle();
+    this->circle.restart();
 
     // Starting User Interface
     if ((result = ui.init(this->window, this->context)) != SDL_APP_CONTINUE)
         return result;
+
+    this->lastTime = SDL_GetTicks();
     
     return result;
 }
@@ -106,7 +97,7 @@ SDL_AppResult Game::updatePhysics()
     this->circle.updatePhysics();
 
     if ((*this->circle.r_position).y >= WINDOW_SIZE[1] || ((*this->circle.r_position).y + *this->circle.r_radius) <= 0.0f)
-        this->restartCircle();
+        this->circle.restart();
 
     return SDL_APP_CONTINUE;
 }
@@ -127,8 +118,12 @@ SDL_AppResult Game::updateRender()
     if ((result = circle.render()) != SDL_APP_CONTINUE)
         return result;
 
-    if ((result = ui.render()) != SDL_APP_CONTINUE)
+    if ((result = ui.render(this->deltaTime)) != SDL_APP_CONTINUE)
         return result;
+
+    Uint64 currentTime = SDL_GetTicks();
+    this->deltaTime = (currentTime - this->lastTime) / 1000.f;
+    this->lastTime = currentTime;
 
     SDL_GL_SwapWindow(this->window);
 
