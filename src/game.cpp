@@ -31,10 +31,10 @@ SDL_AppResult Game::start()
     gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
 
     // Creating objects on game
-    if ((result = bar.init(glm::vec2(WINDOW_SIZE[0] / 2.f, 10.f), glm::vec2(60.f, 10.f), glm::vec3(1.f))) != SDL_APP_CONTINUE)
+    if ((result = bar.init(glm::vec2(WINDOW_SIZE[0] / 2.f - 30.f, 10.f), glm::vec2(60.f, 10.f), glm::vec3(1.f))) != SDL_APP_CONTINUE)
         return result;
 
-    if ((result = bar2.init(glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] - 20.f), glm::vec2(60.f, 10.f), glm::vec3(1.f))) != SDL_APP_CONTINUE)
+    if ((result = bar2.init(glm::vec2(WINDOW_SIZE[0] / 2.f - 30.f, WINDOW_SIZE[1] - 20.f), glm::vec2(60.f, 10.f), glm::vec3(1.f))) != SDL_APP_CONTINUE)
         return result;
 
     if ((result = circle.init(glm::vec2(.0f), 10, glm::vec3(1.f))) != SDL_APP_CONTINUE)
@@ -54,14 +54,19 @@ SDL_AppResult Game::start()
 SDL_AppResult Game::handleEvents(SDL_Event* events)
 {
     SDL_AppResult result = SDL_APP_CONTINUE;
+    auto state = SDL_GetKeyboardState(NULL);
 
     if (events->type == SDL_EVENT_QUIT)
         return SDL_APP_SUCCESS;
+    if (state[SDL_SCANCODE_RETURN] && !ui.hasStarted)
+        ui.hasStarted = true;
+
+    if (!ui.hasStarted)
+        return result;
 
     if ((result = ui.processEvents(events)) != SDL_APP_CONTINUE)
         return result;
 
-    auto state = SDL_GetKeyboardState(NULL);
     if (state[SDL_SCANCODE_A] && (*bar.r_position).x > 20.f)
         bar.applyForce(glm::vec2(-5.0f, 0.0f));
     else if (state[SDL_SCANCODE_D] && (*bar.r_position).x + (*bar.r_scale).x < WINDOW_SIZE[0] - 20.f)
@@ -77,6 +82,9 @@ SDL_AppResult Game::handleEvents(SDL_Event* events)
 
 SDL_AppResult Game::updatePhysics()
 {
+    if (!ui.hasStarted)
+        return SDL_APP_CONTINUE;
+
     this->bar.updatePhysics();
     this->bar2.updatePhysics();
 

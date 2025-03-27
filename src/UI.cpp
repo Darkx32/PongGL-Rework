@@ -29,6 +29,18 @@ SDL_AppResult UI::render(float& dt)
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
 
+    // Start Window
+    if (!hasStarted)
+    {
+        ImVec2 windowSize = ImGui::CalcTextSize(this->startText);
+        ImGui::SetNextWindowPos(ImVec2(WINDOW_SIZE[0] / 2.0f - windowSize.x / 2.0f, WINDOW_SIZE[1] / 2.0f - windowSize.y + 20.0f));
+        ImGui::Begin("Floating", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        ImGui::Text(this->startText);
+        ImGui::End();
+    }
+
+    // FPS Window
+    if (showFPS)
     {
         float fps = 1.0f / dt;
 

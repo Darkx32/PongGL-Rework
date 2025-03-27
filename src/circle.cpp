@@ -76,7 +76,7 @@ void Circle::updatePhysics()
 
 void Circle::restart()
 {
-    *this->r_position = glm::vec2(WINDOW_SIZE[0] / 2.f, WINDOW_SIZE[1] / 2.f);
+    *this->r_position = glm::vec2(WINDOW_SIZE[0] / 2.f - *this->r_radius, WINDOW_SIZE[1] / 2.f - *this->r_radius);
     this->applyForce(-this->getAcceleration());
     
     float randomForceX, randomForceY;
