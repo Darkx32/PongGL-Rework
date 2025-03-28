@@ -34,7 +34,7 @@ SDL_AppResult UI::render(float& dt)
     {
         ImVec2 windowSize = ImGui::CalcTextSize(this->startText);
         ImGui::SetNextWindowPos(ImVec2(WINDOW_SIZE[0] / 2.0f - windowSize.x / 2.0f, WINDOW_SIZE[1] / 2.0f - windowSize.y + 20.0f));
-        ImGui::Begin("Floating", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        ImGui::Begin("Start Window", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
         ImGui::Text(this->startText);
         ImGui::End();
     }
@@ -45,7 +45,7 @@ SDL_AppResult UI::render(float& dt)
         float fps = 1.0f / dt;
 
         ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-        ImGui::Begin("Floating", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        ImGui::Begin("FPS", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
         ImGui::Text("%.1f", ceilf(fps));
         ImGui::End();
     }

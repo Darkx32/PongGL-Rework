@@ -18,5 +18,5 @@ public:
     void shutdown();
 
     bool hasStarted = false;
-    bool showFPS = false;
+    bool showFPS = true;
 };
