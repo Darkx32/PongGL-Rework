@@ -42,11 +42,11 @@ SDL_AppResult UI::render(float& dt)
     // FPS Window
     if (showFPS)
     {
-        float fps = 1.0f / dt;
+        float fps = 1.0f / (dt * 10.f);
 
         ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
         ImGui::Begin("FPS", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-        ImGui::Text("%.1f", ceilf(fps));
+        ImGui::Text("%i", static_cast<int>(round(fps) * 10.f));
         ImGui::End();
     }
 
