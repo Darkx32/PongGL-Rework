@@ -43,7 +43,7 @@ SDL_AppResult Game::start()
     this->circle.restart();
 
     // Starting User Interface
-    if ((result = ui.init(this->window, this->context)) != SDL_APP_CONTINUE)
+    if ((result = ui.init(this->window, this->context, &this->upPoints, &this->downPoints)) != SDL_APP_CONTINUE)
         return result;
 
     this->lastTime = SDL_GetTicks();
@@ -104,8 +104,17 @@ SDL_AppResult Game::updatePhysics()
         
     this->circle.updatePhysics();
 
-    if ((*this->circle.r_position).y >= WINDOW_SIZE[1] || ((*this->circle.r_position).y + *this->circle.r_radius) <= 0.0f)
+    if (((*this->circle.r_position).y + *this->circle.r_radius) <= 0.0f)
+    {
         this->circle.restart();
+        this->downPoints++;
+        this->ui.hasStarted = false;
+    } else if ((*this->circle.r_position).y >= WINDOW_SIZE[1])
+    {
+        this->circle.restart();
+        this->upPoints++;
+        this->ui.hasStarted = false;
+    }
 
     return SDL_APP_CONTINUE;
 }

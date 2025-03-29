@@ -22,6 +22,9 @@ private:
 
     Uint64 lastTime = 0.f;
 
+    int upPoints = 0;
+    int downPoints = 0;
+
 public:
     Game() = default;
     ~Game();
