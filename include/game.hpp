@@ -5,6 +5,7 @@
 #include "circle.hpp"
 #include "global.hpp"
 #include "UI.hpp"
+#include "sound.hpp"
 
 class Game
 {
@@ -19,6 +20,9 @@ private:
 
     // UI
     UI ui;
+
+    // Sound
+    Sound sound;
 
     Uint64 lastTime = 0.f;
 

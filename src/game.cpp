@@ -47,7 +47,12 @@ SDL_AppResult Game::start()
         return result;
 
     this->lastTime = SDL_GetTicks();
-    
+
+    // Start up audio
+    if ((result = sound.init("assets/sounds/background.mp3", "assets/sounds/ball.mp3", "assets/sounds/win.mp3")) != SDL_APP_CONTINUE)
+        return result;
+    this->sound.playMusicSound();
+
     return result;
 }
 
@@ -91,16 +96,24 @@ SDL_AppResult Game::updatePhysics()
     if (this->bar.detectCollision(this->circle))
     {
         this->circle.solveCircleCollision(this->bar);
+        this->sound.playCollisionBall();
     }
     else if (this->bar2.detectCollision(this->circle))
     {
         this->circle.solveCircleCollision(this->bar2);
+        this->sound.playCollisionBall();
     }
 
     if ((*this->circle.r_position).x <= 0.0f)
+    {
         this->circle.applyForce(this->circle.getAcceleration() * glm::vec2(-2.0f, 0.0f));
+        this->sound.playCollisionBall();
+    }
     if ((*circle.r_position).x + *this->circle.r_radius * 2.0f >= WINDOW_SIZE[0])
+    {
         this->circle.applyForce(this->circle.getAcceleration() * glm::vec2(-2.0f, 0.0f));
+        this->sound.playCollisionBall();
+    }
         
     this->circle.updatePhysics();
 
@@ -109,11 +122,13 @@ SDL_AppResult Game::updatePhysics()
         this->circle.restart();
         this->downPoints++;
         this->ui.hasStarted = false;
+        this->sound.playWin();
     } else if ((*this->circle.r_position).y >= WINDOW_SIZE[1])
     {
         this->circle.restart();
         this->upPoints++;
         this->ui.hasStarted = false;
+        this->sound.playWin();
     }
 
     return SDL_APP_CONTINUE;
@@ -143,17 +158,19 @@ SDL_AppResult Game::updateRender()
     this->lastTime = currentTime;
 
     SDL_GL_SwapWindow(this->window);
+    this->sound.updateSwaps();
 
     return result;
 }
 
 Game::~Game()
 {
-    bar.close();
-    bar2.close();
-    circle.close();
+    this->bar.close();
+    this->bar2.close();
+    this->circle.close();
 
-    ui.shutdown();
+    this->ui.shutdown();
+    this->sound.close();
 
     SDL_GL_DestroyContext(this->context);
     SDL_DestroyWindow(this->window);
