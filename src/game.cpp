@@ -51,7 +51,6 @@ SDL_AppResult Game::start()
     // Start up audio
     if ((result = sound.init("assets/sounds/background.mp3", "assets/sounds/ball.mp3", "assets/sounds/win.mp3")) != SDL_APP_CONTINUE)
         return result;
-    //this->sound.playMusicSound();
 
     return result;
 }
@@ -156,6 +155,8 @@ SDL_AppResult Game::updateRender()
     Uint64 currentTime = SDL_GetTicks();
     this->deltaTime = (currentTime - this->lastTime) / 1000.f;
     this->lastTime = currentTime;
+
+    this->sound.playMusicSound();
 
     SDL_GL_SwapWindow(this->window);
     this->sound.updateSwaps();

@@ -19,13 +19,15 @@ SDL_AppResult Sound::init(const char *backgroundFile, const char *collisionFile,
     this->sfx.addStream(this->ballCollision->getStream());
     this->sfx.addStream(this->win->getStream());
 
+    this->background->setVolume(10);
+
     return SDL_APP_CONTINUE;
 }
 
 void Sound::playMusicSound()
 {
-    //if (!this->music.isRunningAudio())
-    this->music.playStream(this->background->getStream());
+    if (!this->music.isRunningAudio())
+        this->music.playStream(this->background->getStream());
 }
 
 void Sound::playCollisionBall(glm::vec2 ballPosition)
