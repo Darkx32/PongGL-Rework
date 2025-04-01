@@ -51,7 +51,7 @@ SDL_AppResult Game::start()
     // Start up audio
     if ((result = sound.init("assets/sounds/background.mp3", "assets/sounds/ball.mp3", "assets/sounds/win.mp3")) != SDL_APP_CONTINUE)
         return result;
-    this->sound.playMusicSound();
+    //this->sound.playMusicSound();
 
     return result;
 }
@@ -96,23 +96,23 @@ SDL_AppResult Game::updatePhysics()
     if (this->bar.detectCollision(this->circle))
     {
         this->circle.solveCircleCollision(this->bar);
-        this->sound.playCollisionBall();
+        this->sound.playCollisionBall(*this->circle.r_position);
     }
     else if (this->bar2.detectCollision(this->circle))
     {
         this->circle.solveCircleCollision(this->bar2);
-        this->sound.playCollisionBall();
+        this->sound.playCollisionBall(*this->circle.r_position);
     }
 
     if ((*this->circle.r_position).x <= 0.0f)
     {
         this->circle.applyForce(this->circle.getAcceleration() * glm::vec2(-2.0f, 0.0f));
-        this->sound.playCollisionBall();
+        this->sound.playCollisionBall(*this->circle.r_position);
     }
     if ((*circle.r_position).x + *this->circle.r_radius * 2.0f >= WINDOW_SIZE[0])
     {
         this->circle.applyForce(this->circle.getAcceleration() * glm::vec2(-2.0f, 0.0f));
-        this->sound.playCollisionBall();
+        this->sound.playCollisionBall(*this->circle.r_position);
     }
         
     this->circle.updatePhysics();

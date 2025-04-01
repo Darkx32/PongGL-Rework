@@ -28,8 +28,14 @@ void Sound::playMusicSound()
     this->music.playStream(this->background->getStream());
 }
 
-void Sound::playCollisionBall()
+void Sound::playCollisionBall(glm::vec2 ballPosition)
 {
+    glm::vec2 center(WINDOW_SIZE[0] / 2.0f, WINDOW_SIZE[1] / 2.0f);
+    glm::vec2 transform = ballPosition - center;
+    float distance = sqrtf(powf(transform.x, 2) + powf(transform.y, 2));
+    transform = (transform / distance) * 1.f;
+
+    this->ballCollision->setPosition(transform.x, transform.y, 0.f);
     this->sfx.playStream(this->ballCollision->getStream());
 }
 

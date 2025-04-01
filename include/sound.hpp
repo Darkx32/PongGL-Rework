@@ -1,6 +1,8 @@
 #pragma once
 #include <AudioEngine/AudioEngine.hpp>
 #include <SDL3/SDL.h>
+#include <glm/glm.hpp>
+#include "global.hpp"
 
 class Sound{
 private:
@@ -19,7 +21,7 @@ public:
     void playMusicSound();
     
     // Sound sfx
-    void playCollisionBall();
+    void playCollisionBall(glm::vec2);
     void playWin();
 
     void updateSwaps();
