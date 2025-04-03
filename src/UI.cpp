@@ -8,7 +8,7 @@ SDL_AppResult UI::init(SDL_Window *window, SDL_GLContext glContext, int* ptrUpPo
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
-    ImGui::GetIO().IniFilename = nullptr;
+    ImGui::GetIO().IniFilename = "assets/pong.ini";
     ImGui::GetIO().FontGlobalScale = 1.5f;
 
     ImGui_ImplSDL3_InitForOpenGL(window, glContext);
@@ -23,6 +23,11 @@ SDL_AppResult UI::init(SDL_Window *window, SDL_GLContext glContext, int* ptrUpPo
 SDL_AppResult UI::processEvents(SDL_Event *events)
 {
     ImGui_ImplSDL3_ProcessEvent(events);
+
+    auto state = SDL_GetKeyboardState(NULL);
+
+    if (state[SDL_SCANCODE_F2])
+        this->soundControllerUI.showController = !this->soundControllerUI.showController;
 
     return SDL_APP_CONTINUE;
 }
@@ -68,6 +73,8 @@ SDL_AppResult UI::render(float& dt)
         ImGui::Text("%i", *this->downPoints);
         ImGui::End();
     }
+
+    this->soundControllerUI.render();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

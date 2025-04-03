@@ -5,6 +5,7 @@
 #include <SDL3/SDL.h>
 #include "global.hpp"
 #include <string>
+#include "UIs/soundController.hpp"
 
 class UI
 {
@@ -24,4 +25,6 @@ public:
 
     bool hasStarted = false;
     bool showFPS = true;
+
+    SoundControllerUI soundControllerUI;
 };

@@ -42,15 +42,16 @@ SDL_AppResult Game::start()
 
     this->circle.restart();
 
-    // Starting User Interface
-    if ((result = ui.init(this->window, this->context, &this->upPoints, &this->downPoints)) != SDL_APP_CONTINUE)
-        return result;
-
     this->lastTime = SDL_GetTicks();
 
     // Start up audio
     if ((result = sound.init("assets/sounds/background.mp3", "assets/sounds/ball.mp3", "assets/sounds/win.mp3")) != SDL_APP_CONTINUE)
         return result;
+
+    // Starting User Interface
+    if ((result = ui.init(this->window, this->context, &this->upPoints, &this->downPoints)) != SDL_APP_CONTINUE)
+        return result;
+    ui.soundControllerUI.init(&this->sound);
 
     return result;
 }
@@ -65,10 +66,10 @@ SDL_AppResult Game::handleEvents(SDL_Event* events)
     if (state[SDL_SCANCODE_RETURN] && !ui.hasStarted)
         ui.hasStarted = true;
 
-    if (!ui.hasStarted)
+    if ((result = ui.processEvents(events)) != SDL_APP_CONTINUE)
         return result;
 
-    if ((result = ui.processEvents(events)) != SDL_APP_CONTINUE)
+    if (!ui.hasStarted)
         return result;
 
     if (state[SDL_SCANCODE_A] && (*bar.r_position).x > 20.f)

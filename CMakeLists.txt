@@ -11,7 +11,10 @@ find_package(imgui CONFIG REQUIRED)
 find_package(SDL3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
-add_executable(rework-ponggl src/main.cpp src/game.cpp src/rect.cpp src/rigidbody.cpp src/shader.cpp src/circle.cpp src/ui.cpp src/sound.cpp)
+add_executable(rework-ponggl 
+            src/main.cpp src/game.cpp src/rect.cpp src/rigidbody.cpp 
+            src/shader.cpp src/circle.cpp src/ui.cpp src/sound.cpp
+            src/UIs/soundController.cpp)
 include_directories(rework-ponggl PRIVATE include)
 
 target_link_libraries(rework-ponggl PRIVATE AudioEngine::AudioEngine)

@@ -25,6 +25,7 @@ public:
     void playWin();
 
     void updateSwaps();
-
     void close();
+
+    void updateVolumes(int musicVolume, int sfxVolume);
 };

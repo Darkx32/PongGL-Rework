@@ -19,8 +19,6 @@ SDL_AppResult Sound::init(const char *backgroundFile, const char *collisionFile,
     this->sfx.addStream(this->ballCollision->getStream());
     this->sfx.addStream(this->win->getStream());
 
-    this->background->setVolume(10);
-
     return SDL_APP_CONTINUE;
 }
 
@@ -57,4 +55,11 @@ void Sound::close()
     delete this->background;
     delete this->ballCollision;
     delete this->win;
+}
+
+void Sound::updateVolumes(int musicVolume, int sfxVolume)
+{
+    this->background->setVolume(musicVolume);
+    this->ballCollision->setVolume(sfxVolume);
+    this->win->setVolume(sfxVolume);
 }
