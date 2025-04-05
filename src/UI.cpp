@@ -24,10 +24,14 @@ SDL_AppResult UI::processEvents(SDL_Event *events)
 {
     ImGui_ImplSDL3_ProcessEvent(events);
 
-    auto state = SDL_GetKeyboardState(NULL);
+    const bool& f2_pressed = SDL_GetKeyboardState(0)[SDL_SCANCODE_F2];
+    const bool& f4_pressed = SDL_GetKeyboardState(0)[SDL_SCANCODE_F4];
 
-    if (state[SDL_SCANCODE_F2])
+    if (f2_pressed)
         this->soundControllerUI.showController = !this->soundControllerUI.showController;
+    
+    if (f4_pressed)
+        this->showFPS = !this->showFPS;
 
     return SDL_APP_CONTINUE;
 }
