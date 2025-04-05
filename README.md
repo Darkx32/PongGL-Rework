@@ -3,6 +3,7 @@ This project was to remake the old [PongGL](https://github.com/Darkx32/PongGL), 
 
 ## How to play
 * Download from [here](https://github.com/Darkx32/PongGL-Rework/releases/tag/v1.0) the zip file
+* Run rework-ponggl.exe and fun!
 * A/D keys is to move the bar up
 * Left/Right is to move the bar down
 * F2 open window to change sounds configurations
