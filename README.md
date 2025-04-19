@@ -2,6 +2,8 @@
 This project was to remake the old [PongGL](https://github.com/Darkx32/PongGL), only better, with improved physics, 3D sound effects, interface using ImGui and a much more fluid gameplay.
 
 ## How to play
+* Download from [here](https://github.com/Darkx32/PongGL-Rework/releases/download/v1.0/PongGL.rework.zip) the zip file
+* Run rework-ponggl.exe and fun!
 * A/D keys is to move the bar up
 * Left/Right is to move the bar down
 * F2 open window to change sounds configurations
